@@ -8,11 +8,12 @@ const {
   fetchCustomers,
   fetchRestaurants,
   fetchReservations,
-  destroyReservation,
+  destroyReservation
 } = require('./db');
 
 const express = require ('express');
 const app = express();
+app.use(express.json());
 
 // APP ROUTES
 // get - read
@@ -43,11 +44,32 @@ app.get('/api/reservations', async(req, res, next) => {
 // delete
 app.delete('/api/customers/:customer_id/reservations/:id', async(req, res, next) => {
   try {
-    await destroyReservation({customer_id: req.params.customer_id, id: req.params.id});
+    await destroyReservation({
+      customer_id: req.params.customer_id, 
+      id: req.params.id
+    });
     res.sendStatus(204);
   } catch(ex) {
     next (ex);
   }
+});
+
+// post - create
+app.post('/api/customers/:customer_id/reservations', async(re, res, next) => {
+  try {
+    res.status(201).send(await createReservation({
+      customer_id: req.params.customer_id, 
+      restaurant_id: req.body.restaurant_id, 
+      date: req.body.date,
+      party_count: req.body.party_count,
+    }));
+  } catch(ex) {
+    next(ex);
+  }
+});
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).send({ error: err.message || err});
 });
 
 // init function
@@ -93,6 +115,7 @@ const init = async() => {
     console.log(`curl localhost: ${port}/api/restaurants`);
     console.log(`curl localhost: ${port}/api/reservations`);
     console.log(`curl -X DELETE localhost: ${port}/api/customers/${mari.id}/reservations/${reservation2.id}`);
+    console.log(`curl -X POST localhost: ${port}/api/customers/${mari.id}/reservations/ -d '{"restaurant_id":"${rosemary.id}", "date": "02/15/2025"}' -H "Content-Type:application/json"`);
   });
 };
 

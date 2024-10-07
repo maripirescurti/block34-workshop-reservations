@@ -66,10 +66,10 @@ const fetchRestaurants = async() => {
   return response.rows;
 };
 
-const createReservation = async({ customer_id, restaurant_id, date}) => {
+const createReservation = async({ customer_id, restaurant_id, date, party_count}) => {
   const SQL = `
-    INSERT INTO reservations(id, customer_id, restaurant_id, date)
-    VALUES($1, $2, $3, $4)
+    INSERT INTO reservations(id, customer_id, restaurant_id, date, party_count)
+    VALUES($1, $2, $3, $4, $5)
     RETURNING *
   `;
   const response = await client.query(SQL, [uuid.v4(), customer_id, restaurant_id, date]);
