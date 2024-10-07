@@ -10,6 +10,9 @@ const {
   destroyReservation,
 } = require('./db');
 
+const express = require ('express');
+const app = express();
+
 const init = async() => {
   console.log('connecting to databse');
   await client.connect();
@@ -43,6 +46,15 @@ const init = async() => {
   console.log(await fetchReservations());
   await destroyReservation({ id: reservation.id, customer_id: reservation.customer_id});
   console.log(await fetchReservations());
+
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`listening on port ${port}`);
+    console.log('some curl commands to test');
+    console.log(`curl localhost: ${port}/api/customers`);
+    console.log(`curl localhost: ${port}/api/restaurants`);
+    console.log(`curl localhost: ${port}/api/reservations`);
+  });
 };
 
 init ();
