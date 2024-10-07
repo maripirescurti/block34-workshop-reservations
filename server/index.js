@@ -6,7 +6,8 @@ const {
   fetchCustomers,
   fetchRestaurants,
   createReservation,
-  fetchReservations
+  fetchReservations,
+  destroyReservation,
 } = require('./db');
 
 const init = async() => {
@@ -39,7 +40,9 @@ const init = async() => {
       date: '02/28/2024'
     }),
   ]);
-  console.log(await fetchReservations())
+  console.log(await fetchReservations());
+  await destroyReservation({ id: reservation.id, customer_id: reservation.customer_id});
+  console.log(await fetchReservations());
 };
 
 init ();
