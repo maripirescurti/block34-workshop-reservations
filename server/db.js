@@ -28,7 +28,7 @@ const createTables = async() => {
 
 const createCustomer = async(name)=> {
   const SQL = `
-    INSERT INTO users(id, name)
+    INSERT INTO customers(id, name)
     VALUES($1, $2)
     RETURNING *
   `;
@@ -38,7 +38,7 @@ const createCustomer = async(name)=> {
 
 const createRestaurant = async(name)=> {
   const SQL = `
-    INSERT INTO users(id, name)
+    INSERT INTO restaurants(id, name)
     VALUES($1, $2)
     RETURNING *
   `;
@@ -46,9 +46,29 @@ const createRestaurant = async(name)=> {
   return response.rows[0];
 };
 
+fetchCustomers = async() => {
+  const SQL = `
+    SELECT *
+    FROM customers
+  `;
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
+fetchRestaurants = async() => {
+  const SQL = `
+    SELECT *
+    FROM restaurants
+  `;
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
 module.exports = {
   client,
   createTables,
   createCustomer,
   createRestaurant,
+  fetchCustomers,
+  fetchRestaurants,
 };

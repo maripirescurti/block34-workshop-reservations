@@ -3,6 +3,8 @@ const {
   createTables,
   createCustomer,
   createRestaurant,
+  fetchCustomers,
+  fetchRestaurants,
 } = require('./db');
 
 const init = async() => {
@@ -20,6 +22,8 @@ const init = async() => {
     createRestaurant({ name: 'rangoon'}),
     createRestaurant({ name: 'apollo'}),
   ]);
+  console.log(await fetchCustomers());
+  console.log(await fetchRestaurants());
 };
 
 init ();
