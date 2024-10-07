@@ -55,7 +55,7 @@ app.delete('/api/customers/:customer_id/reservations/:id', async(req, res, next)
 });
 
 // post - create
-app.post('/api/customers/:customer_id/reservations', async(re, res, next) => {
+app.post('/api/customers/:customer_id/reservations', async(req, res, next) => {
   try {
     res.status(201).send(await createReservation({
       customer_id: req.params.customer_id, 
@@ -95,12 +95,14 @@ const init = async() => {
     createReservation({
       customer_id: mari.id,
       restaurant_id: rosemary.id,
-      date: '02/14/2024'
+      date: '02/14/2024',
+      party_count: 2
     }),
     createReservation({
       customer_id: mari.id,
       restaurant_id: rosemary.id,
-      date: '02/28/2024'
+      date: '02/28/2024',
+      party_count: 3
     }),
   ]);
   console.log(await fetchReservations());
