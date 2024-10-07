@@ -1,3 +1,4 @@
+// imports
 const { 
   client,
   createTables,
@@ -13,6 +14,33 @@ const {
 const express = require ('express');
 const app = express();
 
+// APP ROUTES
+// get - read
+app.get('/api/customers', async(req, res, next) => {
+  try {
+    res.send(await fetchCustomers());
+  } catch(ex) {
+    next(ex);
+  }
+});
+
+app.get('/api/restaurants', async(req, res, next) => {
+  try {
+    res.send(await fetchRestaurants());
+  } catch(ex) {
+    next(ex);
+  }
+});
+
+app.get('/api/reservations', async(req, res, next) => {
+  try {
+    res.send(await fetchReservations());
+  } catch(ex) {
+    next(ex);
+  }
+});
+
+// init function
 const init = async() => {
   console.log('connecting to databse');
   await client.connect();

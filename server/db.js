@@ -1,7 +1,9 @@
+// imports
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/acme_travel_db');
 const uuid = require('uuid');
 
+// methods
 const createTables = async() => {
   const SQL = `
     DROP TABLE IF EXISTS reservations;
@@ -91,6 +93,7 @@ const destroyReservation = async() => {
   await client.query(SQL, [id, customer_id]);
 }
 
+// exports
 module.exports = {
   client,
   createTables,
