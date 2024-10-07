@@ -40,6 +40,16 @@ app.get('/api/reservations', async(req, res, next) => {
   }
 });
 
+// delete
+app.delete('/api/customers/:customer_id/reservations/:id', async(req, res, next) => {
+  try {
+    await destroyReservation({customer_id: req.params.customer_id, id: req.params.id});
+    res.sendStatus(204);
+  } catch(ex) {
+    next (ex);
+  }
+});
+
 // init function
 const init = async() => {
   console.log('connecting to databse');
@@ -82,6 +92,7 @@ const init = async() => {
     console.log(`curl localhost: ${port}/api/customers`);
     console.log(`curl localhost: ${port}/api/restaurants`);
     console.log(`curl localhost: ${port}/api/reservations`);
+    console.log(`curl -X DELETE localhost: ${port}/api/customers/${mari.id}/reservations/${reservation2.id}`);
   });
 };
 
