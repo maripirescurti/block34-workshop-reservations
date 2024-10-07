@@ -1,5 +1,6 @@
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/acme_travel_db');
+const uuid = require('uuid');
 
 const createTables = async() => {
   const SQL = `
@@ -25,7 +26,29 @@ const createTables = async() => {
   await client.query(SQL);
 };
 
+const createCustomer = async(name)=> {
+  const SQL = `
+    INSERT INTO users(id, name)
+    VALUES($1, $2)
+    RETURNING *
+  `;
+  const response = await client.query(SQL, [uuid.v4(), name]);
+  return response.rows[0];
+};
+
+const createRestaurant = async(name)=> {
+  const SQL = `
+    INSERT INTO users(id, name)
+    VALUES($1, $2)
+    RETURNING *
+  `;
+  const response = await client.query(SQL, [uuid.v4(), name]);
+  return response.rows[0];
+};
+
 module.exports = {
   client,
-  createTables
+  createTables,
+  createCustomer,
+  createRestaurant,
 };
