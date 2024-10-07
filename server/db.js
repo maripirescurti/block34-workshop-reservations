@@ -28,7 +28,7 @@ const createTables = async() => {
   await client.query(SQL);
 };
 
-const createCustomer = async(name)=> {
+const createCustomer = async({name})=> {
   const SQL = `
     INSERT INTO customers(id, name)
     VALUES($1, $2)
@@ -38,7 +38,7 @@ const createCustomer = async(name)=> {
   return response.rows[0];
 };
 
-const createRestaurant = async(name)=> {
+const createRestaurant = async({name})=> {
   const SQL = `
     INSERT INTO restaurants(id, name)
     VALUES($1, $2)
@@ -85,7 +85,8 @@ const fetchReservations = async() => {
   return response.rows;
 };
 
-const destroyReservation = async() => {
+const destroyReservation = async({ id, customer_id}) => {
+  console.log(id, user_id)
   const SQL = `
     DELETE FROM reservations
     WHERE id = $1 AND customer_id=$2
@@ -99,9 +100,9 @@ module.exports = {
   createTables,
   createCustomer,
   createRestaurant,
+  createReservation,
   fetchCustomers,
   fetchRestaurants,
-  createReservation,
   fetchReservations,
   destroyReservation
 };
